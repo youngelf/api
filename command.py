@@ -61,8 +61,8 @@ if len(mailbox) == 0:
 header = 'To: %s\n' % input_mail['from']
 header += 'Subject: %s\n' % input_mail['subject']
 # So threading works correctly
-header += 'In-Reply-To: %s' % input_mail['message-id']
-header += 'References: %s' % input_mail['message-id']
+header += 'In-Reply-To: %s\n' % input_mail['message-id']
+header += 'References: %s\n' % input_mail['message-id']
 
 output_body.write(header)
 
@@ -77,9 +77,11 @@ else:
 
 
 localtime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-body = "This is command.py.\nThe time is %s.\n" % localtime
-body += "The mailbox was %s\n" % mailbox
-body += "You said this to me: %s\n----\n\nYour entire message follows:\n" % input_body
+
+body = "\nThanks for writing to me.\nThe time is %s." % localtime
+body += "\nI really enjoyed reading your message.\nYour mail is working just fine. Congratulations!"
+body += "\nHere is what your email looks like me: %s" % input_body
+body += "\nYou might not be aware of email headers, but here they are\n----\n\nYour entire message follows:\n"
 
 sender = ''
 input_file = open(options.input_mail, 'r')
@@ -89,6 +91,7 @@ for line in input_file.readlines():
     # TODO(viki): Figure out how to just send the body.
     body += line
 
+body += "\n---\nThe mailbox name was %s\n" % mailbox
 
 
 # Now that the header is written, write the remaining body.
