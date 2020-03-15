@@ -35,7 +35,7 @@ input_mail = Parser().parse(open(options.input_mail, 'r'))
 
 to_address = input_mail['to']
 
-# If the input address was "API eggwall <api@eggwall.com>", then we want to only retain the api@eggwall.com>"
+# If the input address was "API hostname <api@hostname.com>", then we want to only retain the api@hostname.com>"
 # in the address for the mailboxes to work.
 if to_address.find('<') >= 0:
     to_address = to_address[to_address.find('<')+1:]
@@ -43,9 +43,9 @@ if to_address.find('<') >= 0:
 
 # Which specific mailbox was this sent to?
 prefix = 'api'
-suffix = '@eggwall.com'
-# The mailbox name for api+first@eggwall.com is first
-mailbox = to_address[len(prefix)+1:-len(suffix)]
+# suffix = '@e**wajj.com'
+# The mailbox name for api+first@hostname.com is first
+mailbox = to_address[len(prefix)+1:-12]
 # If the mailbox is empty, call it default
 if len(mailbox) == 0:
     mailbox = 'default'
@@ -60,7 +60,7 @@ header += 'References: %s' % input_mail['message-id']
 
 output_body.write(header)
 
-# TODO(viki): Install the application in a specific mailbox at api+mailbox@eggwall.com
+# TODO(viki): Install the application in a specific mailbox at api+mailbox@hostname.com
 
 # The first part of a multipart message or the string object is the human readable message
 if (input_mail.is_multipart()):
