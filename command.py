@@ -42,10 +42,16 @@ if to_address.find('<') >= 0:
 
 
 # Which specific mailbox was this sent to?
-prefix = 'api'
-# suffix = '@e**wajj.com'
 # The mailbox name for api+first@hostname.com is first
-mailbox = to_address[len(prefix)+1:-12]
+
+prefix = 'api'
+
+# Git rid of the @ and everything after that, if it exists.
+end_pos = to_address.find('@')
+if end_pos >= 0:
+    to_address = to_address[:end_pos]
+
+mailbox = to_address[len(prefix)+1:end_pos]
 # If the mailbox is empty, call it default
 if len(mailbox) == 0:
     mailbox = 'default'
@@ -73,7 +79,7 @@ else:
 localtime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 body = "This is command.py.\nThe time is %s.\n" % localtime
 body += "The mailbox was %s\n" % mailbox
-body += "You said this to me: %s\nYour entire message follows:\n" % input_body
+body += "You said this to me: %s\n----\n\nYour entire message follows:\n" % input_body
 
 sender = ''
 input_file = open(options.input_mail, 'r')
